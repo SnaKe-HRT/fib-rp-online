@@ -7,8 +7,8 @@
 
 <style>
 :root {
-  --panel: rgba(15,23,42,0.90);
-  --panel2: rgba(2,6,23,0.95);
+  --panel: rgba(15,23,42,0.92);
+  --panel2: rgba(2,6,23,0.96);
   --accent: #1d4ed8;
   --accent2: #3b82f6;
   --gold: #d4af37;
@@ -25,57 +25,49 @@ body{
   background-color:#0b111d;
 }
 
-/* IMAGE DE FOND HÉBERGÉE */
+/* IMAGE FOND STABLE */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background-image: url("https://i.imgur.com/7QZ8K6B.png");
+  background-image: url("https://raw.githubusercontent.com/aymane-haddad/assets/main/fib_background.jpg");
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
   z-index:-2;
 }
 
-/* OVERLAY SOMBRE */
+/* Overlay sombre */
 body::after{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.75);
+  background:rgba(0,0,0,0.78);
   backdrop-filter: blur(4px);
   z-index:-1;
 }
 
 /* HEADER */
 header{
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.88);
   padding:20px 30px;
   border-bottom:2px solid var(--gold);
   display:flex;
   align-items:center;
-  box-shadow:0 0 20px rgba(0,0,0,0.8);
 }
 
 .logo-container{
-  background:rgba(0,0,0,0.6);
-  padding:10px 20px;
-  border-radius:12px;
   margin-right:20px;
-  border:2px solid var(--gold);
-  box-shadow:0 0 20px rgba(212,175,55,0.5);
 }
 
 header img{
   height:70px;
-  display:block;
 }
 
 header h1{
   margin:0;
   font-size:26px;
   color:var(--gold);
-  letter-spacing:2px;
 }
 
 header span{
@@ -101,24 +93,20 @@ header span{
 
 .sidebar h2{
   color:var(--gold);
-  border-bottom:1px solid var(--gold);
-  padding-bottom:6px;
 }
 
-.case{
-  padding:12px;
-  margin-bottom:10px;
-  background:var(--panel);
-  border-left:4px solid var(--accent2);
-  border-radius:6px;
+button{
+  background:var(--accent);
+  border:none;
+  padding:10px 15px;
+  color:white;
   cursor:pointer;
-  transition:0.3s;
+  border-radius:6px;
+  margin-top:10px;
 }
 
-.case:hover{
-  background:rgba(30,41,59,0.95);
-  transform:translateX(6px);
-  box-shadow:0 0 10px rgba(59,130,246,0.6);
+button:hover{
+  background:var(--accent2);
 }
 
 /* MAIN */
@@ -127,75 +115,25 @@ header span{
   overflow-y:auto;
 }
 
-/* PANELS */
 .panel{
   background:var(--panel);
   padding:25px;
   margin-bottom:25px;
   border-radius:12px;
-  box-shadow:0 0 25px rgba(0,0,0,0.7);
-  transition:0.3s;
-}
-
-.panel:hover{
-  box-shadow:0 0 30px rgba(212,175,55,0.4);
 }
 
 .panel h2{
-  margin-top:0;
   color:var(--gold);
-  border-bottom:1px solid var(--gold);
-  padding-bottom:6px;
 }
 
-/* INPUTS */
 input, textarea, select{
   width:100%;
-  padding:12px;
-  margin-top:6px;
-  margin-bottom:14px;
-  background:rgba(30,41,59,0.95);
+  padding:10px;
+  margin:10px 0;
+  background:#1e293b;
   border:1px solid var(--accent2);
   border-radius:6px;
-  color:var(--text);
-}
-
-textarea{
-  min-height:140px;
-  resize:vertical;
-}
-
-/* BUTTONS */
-button{
-  background:var(--accent);
-  border:none;
-  padding:12px 18px;
   color:white;
-  cursor:pointer;
-  margin-right:5px;
-  border-radius:6px;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-button:hover{
-  background:var(--accent2);
-  box-shadow:0 0 12px var(--accent2);
-}
-
-/* LOG */
-.log{
-  background:black;
-  padding:15px;
-  font-size:13px;
-  height:250px;
-  overflow-y:auto;
-  border-radius:6px;
-}
-
-.checkbox-group label{
-  display:block;
-  margin-bottom:6px;
 }
 </style>
 </head>
@@ -204,7 +142,7 @@ button:hover{
 
 <header>
   <div class="logo-container">
-    <img src="https://i.imgur.com/4YQZ4xE.png" alt="FIB Logo">
+    <img src="https://raw.githubusercontent.com/aymane-haddad/assets/main/fib_logo.png" alt="FIB Logo">
   </div>
   <h1>FIB RP Bureau - Multi-Agent Online</h1>
   <span>Federal Investigation Bureau – San Andreas</span>
@@ -213,10 +151,9 @@ button:hover{
 <div class="container">
 
   <div class="sidebar">
-    <h2>Connexion / Inscription</h2>
+    <h2>Connexion</h2>
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Mot de passe">
-    <button>Créer un compte</button>
     <button>Se connecter</button>
 
     <h2>Dossiers</h2>
@@ -224,7 +161,6 @@ button:hover{
   </div>
 
   <div class="main">
-
     <div class="panel">
       <h2>Informations générales</h2>
       <input placeholder="Numéro dossier">
@@ -232,24 +168,8 @@ button:hover{
       <input placeholder="Alias">
       <input placeholder="Localisation">
     </div>
-
-    <div class="panel">
-      <h2>Description détaillée</h2>
-      <textarea></textarea>
-    </div>
-
-    <div class="panel">
-      <button>Sauvegarder</button>
-      <button>Supprimer</button>
-      <button>Exporter</button>
-    </div>
-
-    <div class="panel">
-      <h2>Journal système</h2>
-      <div class="log">> Système initialisé...</div>
-    </div>
-
   </div>
+
 </div>
 
 </body>
