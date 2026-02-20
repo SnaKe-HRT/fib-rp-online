@@ -7,7 +7,6 @@
 
 <style>
 :root {
-  --bg-dark: rgba(5,10,20,0.85);
   --panel: rgba(15,23,42,0.90);
   --panel2: rgba(2,6,23,0.95);
   --accent: #1d4ed8;
@@ -21,14 +20,25 @@
 body{
   margin:0;
   font-family:"Courier New", monospace;
-  background: url("fib_background.png") no-repeat center center fixed;
-  background-size:cover;
   color:var(--text);
   overflow:hidden;
+  background-color:#0b111d;
 }
 
-/* Overlay sombre */
+/* IMAGE DE FOND HÉBERGÉE */
 body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image: url("https://i.imgur.com/7QZ8K6B.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-2;
+}
+
+/* OVERLAY SOMBRE */
+body::after{
   content:"";
   position:fixed;
   inset:0;
@@ -47,15 +57,23 @@ header{
   box-shadow:0 0 20px rgba(0,0,0,0.8);
 }
 
-header img{
-  height:65px;
+.logo-container{
+  background:rgba(0,0,0,0.6);
+  padding:10px 20px;
+  border-radius:12px;
   margin-right:20px;
-  filter: drop-shadow(0 0 10px black);
+  border:2px solid var(--gold);
+  box-shadow:0 0 20px rgba(212,175,55,0.5);
+}
+
+header img{
+  height:70px;
+  display:block;
 }
 
 header h1{
   margin:0;
-  font-size:28px;
+  font-size:26px;
   color:var(--gold);
   letter-spacing:2px;
 }
@@ -83,7 +101,6 @@ header span{
 
 .sidebar h2{
   color:var(--gold);
-  margin-top:0;
   border-bottom:1px solid var(--gold);
   padding-bottom:6px;
 }
@@ -176,7 +193,6 @@ button:hover{
   border-radius:6px;
 }
 
-/* CHECKBOX */
 .checkbox-group label{
   display:block;
   margin-bottom:6px;
@@ -187,7 +203,9 @@ button:hover{
 <body>
 
 <header>
-  <img src="fib_logo.png" alt="FIB Logo">
+  <div class="logo-container">
+    <img src="https://i.imgur.com/4YQZ4xE.png" alt="FIB Logo">
+  </div>
   <h1>FIB RP Bureau - Multi-Agent Online</h1>
   <span>Federal Investigation Bureau – San Andreas</span>
 </header>
@@ -196,90 +214,39 @@ button:hover{
 
   <div class="sidebar">
     <h2>Connexion / Inscription</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Mot de passe">
-    <button onclick="signup()">Créer un compte</button>
-    <button onclick="login()">Se connecter</button>
-    <div id="loginStatus"></div>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Mot de passe">
+    <button>Créer un compte</button>
+    <button>Se connecter</button>
 
     <h2>Dossiers</h2>
-    <button onclick="newCase()">+ Nouveau dossier</button>
-    <div id="caseList"></div>
+    <button>+ Nouveau dossier</button>
   </div>
 
   <div class="main">
 
     <div class="panel">
       <h2>Informations générales</h2>
-      Numéro dossier<input id="caseNumber">
-      Organisation<input id="orgName">
-      Alias<input id="alias">
-      Localisation<input id="location">
-      Statut<select id="status">
-        <option>ACTIF</option>
-        <option>SURVEILLANCE</option>
-        <option>FERMÉ</option>
-      </select>
-      Type d’organisation<select id="orgType">
-        <option>Criminelle</option>
-        <option>Groupe structuré</option>
-        <option>Gang</option>
-        <option>Entreprise écran</option>
-      </select>
-      Priorité<select id="priority">
-        <option>Normale</option>
-        <option>Haute</option>
-        <option>Critique</option>
-      </select>
+      <input placeholder="Numéro dossier">
+      <input placeholder="Organisation">
+      <input placeholder="Alias">
+      <input placeholder="Localisation">
     </div>
 
     <div class="panel">
       <h2>Description détaillée</h2>
-      <textarea id="description"></textarea>
+      <textarea></textarea>
     </div>
 
     <div class="panel">
-      <h2>Niveau de menace</h2>
-      <select id="threat">
-        <option>FAIBLE</option>
-        <option>MODÉRÉ</option>
-        <option>ÉLEVÉ</option>
-        <option>CRITIQUE</option>
-      </select>
-    </div>
-
-    <div class="panel">
-      <h2>Actions recommandées</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox" class="action" value="Surveillance"> Surveillance</label>
-        <label><input type="checkbox" class="action" value="Infiltration"> Infiltration</label>
-        <label><input type="checkbox" class="action" value="Mandat d’arrêt"> Mandat d’arrêt</label>
-        <label><input type="checkbox" class="action" value="Perquisition"> Perquisition</label>
-        <label><input type="checkbox" class="action" value="Interrogatoire"> Interrogatoire</label>
-        <label><input type="checkbox" class="action" value="Analyse financière"> Analyse financière</label>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h2>Membres identifiés</h2>
-      <textarea id="members"></textarea>
-    </div>
-
-    <div class="panel">
-      <h2>Preuves et fichiers</h2>
-      <input type="file" id="fileUpload" multiple>
-      <textarea id="evidence"></textarea>
-    </div>
-
-    <div class="panel">
-      <button onclick="saveCase()">Sauvegarder</button>
-      <button onclick="deleteCase()">Supprimer</button>
-      <button onclick="exportCase()">Exporter</button>
+      <button>Sauvegarder</button>
+      <button>Supprimer</button>
+      <button>Exporter</button>
     </div>
 
     <div class="panel">
       <h2>Journal système</h2>
-      <div class="log" id="log"></div>
+      <div class="log">> Système initialisé...</div>
     </div>
 
   </div>
