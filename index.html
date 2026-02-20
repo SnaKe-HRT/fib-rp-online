@@ -4,172 +4,286 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIB RP Bureau - Multi-Agent Online</title>
+
 <style>
 :root {
-  --bg: #0b111d;
-  --panel: rgba(17, 24, 39, 0.95);
-  --panel2: rgba(2, 6, 23, 0.95);
+  --bg-dark: rgba(5,10,20,0.85);
+  --panel: rgba(15,23,42,0.90);
+  --panel2: rgba(2,6,23,0.95);
   --accent: #1d4ed8;
   --accent2: #3b82f6;
+  --gold: #d4af37;
   --text: #e5e7eb;
 }
-body { margin:0; font-family:"Courier New", monospace; background: url('background.jpg') no-repeat center center fixed; background-size: cover; color:var(--text); overflow:hidden; }
-header { background: rgba(0,0,0,0.85); padding:20px; border-bottom:2px solid var(--accent); display:flex; align-items:center; }
-header img { height:60px; margin-right:15px; }
-header h1 { margin:0; color:var(--accent2); font-size:30px; }
-header span { font-size:12px; color:#9ca3af; margin-left:auto; }
-.container { display:grid; grid-template-columns:320px 1fr; height:calc(100vh - 90px); }
-.sidebar { background: var(--panel2); padding:20px; border-right:2px solid var(--accent); overflow-y:auto; border-radius:0 15px 15px 0; }
-.sidebar h2 { font-size:20px; margin-bottom:12px; color:var(--accent2); }
-.case { padding:12px; background: var(--panel); margin-bottom:10px; cursor:pointer; border-left:4px solid var(--accent); border-radius:6px; transition: 0.3s; }
-.case:hover { background: rgba(31,41,55,0.95); transform: translateX(5px); }
-.main { padding:30px; overflow-y:auto; }
-.panel { background: var(--panel); padding:25px; margin-bottom:25px; border-radius:12px; box-shadow: 0 0 20px rgba(0,0,0,0.7); transition: all 0.3s; }
-.panel:hover { box-shadow: 0 0 25px rgba(59,130,246,0.7); }
-.panel h2 { margin-top:0; font-size:20px; color:var(--accent2); border-bottom:1px solid var(--accent2); padding-bottom:6px; }
-input, textarea, select { width:100%; padding:12px; margin-top:5px; margin-bottom:12px; background: rgba(31,41,55,0.95); border:1px solid var(--accent2); border-radius:6px; color:var(--text); }
-textarea { min-height:140px; resize: vertical; }
-button { background: var(--accent); border:none; padding:12px 18px; color:white; cursor:pointer; margin-right:5px; border-radius:6px; font-weight:bold; transition: 0.3s; }
-button:hover { background: var(--accent2); }
-.log { background:black; padding:15px; font-size:13px; height:250px; overflow-y:auto; border-radius:6px; }
-.checkbox-group label { display:block; margin-bottom:6px; }
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:"Courier New", monospace;
+  background: url("fib_background.png") no-repeat center center fixed;
+  background-size:cover;
+  color:var(--text);
+  overflow:hidden;
+}
+
+/* Overlay sombre */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index:-1;
+}
+
+/* HEADER */
+header{
+  background:rgba(0,0,0,0.85);
+  padding:20px 30px;
+  border-bottom:2px solid var(--gold);
+  display:flex;
+  align-items:center;
+  box-shadow:0 0 20px rgba(0,0,0,0.8);
+}
+
+header img{
+  height:65px;
+  margin-right:20px;
+  filter: drop-shadow(0 0 10px black);
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+
+header span{
+  margin-left:auto;
+  font-size:13px;
+  color:#9ca3af;
+}
+
+/* GRID */
+.container{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  height:calc(100vh - 105px);
+}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--panel2);
+  padding:25px;
+  border-right:2px solid var(--gold);
+  overflow-y:auto;
+}
+
+.sidebar h2{
+  color:var(--gold);
+  margin-top:0;
+  border-bottom:1px solid var(--gold);
+  padding-bottom:6px;
+}
+
+.case{
+  padding:12px;
+  margin-bottom:10px;
+  background:var(--panel);
+  border-left:4px solid var(--accent2);
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.case:hover{
+  background:rgba(30,41,59,0.95);
+  transform:translateX(6px);
+  box-shadow:0 0 10px rgba(59,130,246,0.6);
+}
+
+/* MAIN */
+.main{
+  padding:30px;
+  overflow-y:auto;
+}
+
+/* PANELS */
+.panel{
+  background:var(--panel);
+  padding:25px;
+  margin-bottom:25px;
+  border-radius:12px;
+  box-shadow:0 0 25px rgba(0,0,0,0.7);
+  transition:0.3s;
+}
+
+.panel:hover{
+  box-shadow:0 0 30px rgba(212,175,55,0.4);
+}
+
+.panel h2{
+  margin-top:0;
+  color:var(--gold);
+  border-bottom:1px solid var(--gold);
+  padding-bottom:6px;
+}
+
+/* INPUTS */
+input, textarea, select{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  margin-bottom:14px;
+  background:rgba(30,41,59,0.95);
+  border:1px solid var(--accent2);
+  border-radius:6px;
+  color:var(--text);
+}
+
+textarea{
+  min-height:140px;
+  resize:vertical;
+}
+
+/* BUTTONS */
+button{
+  background:var(--accent);
+  border:none;
+  padding:12px 18px;
+  color:white;
+  cursor:pointer;
+  margin-right:5px;
+  border-radius:6px;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+button:hover{
+  background:var(--accent2);
+  box-shadow:0 0 12px var(--accent2);
+}
+
+/* LOG */
+.log{
+  background:black;
+  padding:15px;
+  font-size:13px;
+  height:250px;
+  overflow-y:auto;
+  border-radius:6px;
+}
+
+/* CHECKBOX */
+.checkbox-group label{
+  display:block;
+  margin-bottom:6px;
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<img src="fib_logo.png" alt="FIB Logo">
-<h1>FIB RP Bureau - Multi-Agent Online</h1>
-<span>Federal Investigation Bureau – San Andreas</span>
+  <img src="fib_logo.png" alt="FIB Logo">
+  <h1>FIB RP Bureau - Multi-Agent Online</h1>
+  <span>Federal Investigation Bureau – San Andreas</span>
 </header>
+
 <div class="container">
-<div class="sidebar">
-<h2>Connexion / Inscription</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Mot de passe">
-<button onclick="signup()">Créer un compte</button>
-<button onclick="login()">Se connecter</button>
-<div id="loginStatus"></div>
-<h2>Dossiers</h2>
-<button onclick="newCase()">+ Nouveau dossier</button>
-<div id="caseList"></div>
+
+  <div class="sidebar">
+    <h2>Connexion / Inscription</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Mot de passe">
+    <button onclick="signup()">Créer un compte</button>
+    <button onclick="login()">Se connecter</button>
+    <div id="loginStatus"></div>
+
+    <h2>Dossiers</h2>
+    <button onclick="newCase()">+ Nouveau dossier</button>
+    <div id="caseList"></div>
+  </div>
+
+  <div class="main">
+
+    <div class="panel">
+      <h2>Informations générales</h2>
+      Numéro dossier<input id="caseNumber">
+      Organisation<input id="orgName">
+      Alias<input id="alias">
+      Localisation<input id="location">
+      Statut<select id="status">
+        <option>ACTIF</option>
+        <option>SURVEILLANCE</option>
+        <option>FERMÉ</option>
+      </select>
+      Type d’organisation<select id="orgType">
+        <option>Criminelle</option>
+        <option>Groupe structuré</option>
+        <option>Gang</option>
+        <option>Entreprise écran</option>
+      </select>
+      Priorité<select id="priority">
+        <option>Normale</option>
+        <option>Haute</option>
+        <option>Critique</option>
+      </select>
+    </div>
+
+    <div class="panel">
+      <h2>Description détaillée</h2>
+      <textarea id="description"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Niveau de menace</h2>
+      <select id="threat">
+        <option>FAIBLE</option>
+        <option>MODÉRÉ</option>
+        <option>ÉLEVÉ</option>
+        <option>CRITIQUE</option>
+      </select>
+    </div>
+
+    <div class="panel">
+      <h2>Actions recommandées</h2>
+      <div class="checkbox-group">
+        <label><input type="checkbox" class="action" value="Surveillance"> Surveillance</label>
+        <label><input type="checkbox" class="action" value="Infiltration"> Infiltration</label>
+        <label><input type="checkbox" class="action" value="Mandat d’arrêt"> Mandat d’arrêt</label>
+        <label><input type="checkbox" class="action" value="Perquisition"> Perquisition</label>
+        <label><input type="checkbox" class="action" value="Interrogatoire"> Interrogatoire</label>
+        <label><input type="checkbox" class="action" value="Analyse financière"> Analyse financière</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Membres identifiés</h2>
+      <textarea id="members"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Preuves et fichiers</h2>
+      <input type="file" id="fileUpload" multiple>
+      <textarea id="evidence"></textarea>
+    </div>
+
+    <div class="panel">
+      <button onclick="saveCase()">Sauvegarder</button>
+      <button onclick="deleteCase()">Supprimer</button>
+      <button onclick="exportCase()">Exporter</button>
+    </div>
+
+    <div class="panel">
+      <h2>Journal système</h2>
+      <div class="log" id="log"></div>
+    </div>
+
+  </div>
 </div>
-<div class="main">
-<div class="panel">
-<h2>Informations générales</h2>
-Numéro dossier<input id="caseNumber">
-Organisation<input id="orgName">
-Alias<input id="alias">
-Localisation<input id="location">
-Statut<select id="status"><option>ACTIF</option><option>SURVEILLANCE</option><option>FERMÉ</option></select>
-Type d’organisation<select id="orgType"><option>Criminelle</option><option>Groupe structuré</option><option>Gang</option><option>Entreprise écran</option></select>
-Priorité<select id="priority"><option>Normale</option><option>Haute</option><option>Critique</option></select>
-</div>
-<div class="panel">
-<h2>Description détaillée</h2>
-<textarea id="description"></textarea>
-</div>
-<div class="panel">
-<h2>Niveau de menace</h2>
-<select id="threat"><option>FAIBLE</option><option>MODÉRÉ</option><option>ÉLEVÉ</option><option>CRITIQUE</option></select>
-</div>
-<div class="panel">
-<h2>Actions recommandées</h2>
-<div class="checkbox-group">
-<label><input type="checkbox" class="action" value="Surveillance">Surveillance</label>
-<label><input type="checkbox" class="action" value="Infiltration">Infiltration</label>
-<label><input type="checkbox" class="action" value="Mandat d’arrêt">Mandat d’arrêt</label>
-<label><input type="checkbox" class="action" value="Perquisition">Perquisition</label>
-<label><input type="checkbox" class="action" value="Interrogatoire">Interrogatoire</label>
-<label><input type="checkbox" class="action" value="Analyse financière">Analyse financière</label>
-</div>
-</div>
-<div class="panel">
-<h2>Membres identifiés</h2>
-<textarea id="members" placeholder="Nom / Alias / Rôle / Statut"></textarea>
-</div>
-<div class="panel">
-<h2>Preuves et fichiers</h2>
-<input type="file" id="fileUpload" multiple>
-<textarea id="evidence" placeholder="Notes sur preuves, fichiers, témoins"></textarea>
-</div>
-<div class="panel">
-<button onclick="saveCase()">Sauvegarder</button>
-<button onclick="deleteCase()">Supprimer</button>
-<button onclick="exportCase()">Exporter</button>
-</div>
-<div class="panel">
-<h2>Journal système</h2>
-<div class="log" id="log"></div>
-</div>
-</div>
-</div>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
-<script>
-// 🔹 Remplace par ton Firebase config
-const firebaseConfig = {
-  apiKey: "TON_API_KEY",
-  authDomain: "TON_PROJET.firebaseapp.com",
-  databaseURL: "https://TON_PROJET.firebaseio.com",
-  projectId: "TON_PROJET",
-  storageBucket: "TON_PROJET.appspot.com",
-  messagingSenderId: "TON_SENDER_ID",
-  appId: "TON_APP_ID"
-};
-
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const auth = firebase.auth();
-
-let currentCase=null;
-let loggedIn=false;
-let cases = [];
-
-function log(text){const logBox=document.getElementById("log");logBox.innerHTML+="> "+text+"<br>";logBox.scrollTop=logBox.scrollHeight;}
-
-function signup(){
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  auth.createUserWithEmailAndPassword(email,password)
-  .then(userCredential=>{ loggedIn=true; document.getElementById('loginStatus').innerText='Connecté : '+email; log('Compte créé : '+email);})
-  .catch(error=>{alert(error.message);});
-}
-
-function login(){
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  auth.signInWithEmailAndPassword(email,password)
-  .then(userCredential=>{ loggedIn=true; document.getElementById('loginStatus').innerText='Connecté : '+email; log('Agent connecté : '+email);})
-  .catch(error=>{alert(error.message);});
-}
-
-function refreshList(){const list=document.getElementById('caseList');list.innerHTML=''; cases.forEach(c=>{ const div=document.createElement('div'); div.className='case'; div.innerText=c.caseNumber+' - '+c.orgName; div.onclick=()=>loadCase(c.caseNumber); list.appendChild(div); });}
-
-function newCase(){if(!loggedIn){alert('Connectez-vous'); return;} currentCase=null; document.querySelectorAll('input, textarea, select').forEach(e=>e.value=''); log('Nouveau dossier créé');}
-
-function loadCase(number){if(!loggedIn){alert('Connectez-vous'); return;} db.ref('cases/'+number).once('value').then(snap=>{
-const c = snap.val(); if(!c) return; currentCase=c.caseNumber; caseNumber.value=c.caseNumber; orgName.value=c.orgName; alias.value=c.alias; location.value=c.location; description.value=c.description; threat.value=c.threat; status.value=c.status; orgType.value=c.orgType; priority.value=c.priority; members.value=c.members; evidence.value=c.evidence; log('Dossier chargé : '+c.caseNumber);
-});}
-
-function saveCase(){if(!loggedIn){alert('Connectez-vous'); return;} const actionsArray=Array.from(document.querySelectorAll('.action:checked')).map(a=>a.value);
-const filesArray=Array.from(document.getElementById('fileUpload').files).map(f=>f.name);
-const data={caseNumber:caseNumber.value, orgName:orgName.value, alias:alias.value, location:location.value, description:description.value, threat:threat.value, status:status.value, orgType:orgType.value, priority:priority.value, members:members.value, evidence:evidence.value, actions:actionsArray, files:filesArray};
-db.ref('cases/'+caseNumber.value).set(data); log('Dossier sauvegardé sur Firebase');}
-
-function deleteCase(){if(!loggedIn){alert('Connectez-vous'); return;} if(!currentCase) return; db.ref('cases/'+currentCase).remove(); log('Dossier supprimé');}
-
-function exportCase(){if(!loggedIn){alert('Connectez-vous'); return;} const actionsArray=Array.from(document.querySelectorAll('.action:checked')).map(a=>a.value);
-const filesArray=Array.from(document.getElementById('fileUpload').files).map(f=>f.name);
-const content=`FIB DOSSIER\n\nNuméro: ${caseNumber.value}\nOrganisation: ${orgName.value}\nAlias: ${alias.value}\nLocalisation: ${location.value}\nType: ${orgType.value}\nPriorité: ${priority.value}\nMenace: ${threat.value}\nStatut: ${status.value}\nActions: ${actionsArray.join(', ')}\nFichiers: ${filesArray.join(', ')}\n\nDescription:\n${description.value}\n\nMembres:\n${members.value}\n\nPreuves:\n${evidence.value}`;
-navigator.clipboard.writeText(content); log('Dossier exporté vers presse-papier');}
-
-// 🔹 Écoute en temps réel
-db.ref('cases').on('value', snapshot=>{ const data = snapshot.val(); cases = data ? Object.values(data) : []; refreshList(); log('Dossiers synchronisés depuis Firebase'); });
-
-log('Système FIB RP Bureau Online initialisé');
-</script>
 </body>
 </html>
