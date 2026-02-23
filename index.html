@@ -7,7 +7,6 @@
 
 <style>
 :root {
-  --bg-dark: rgba(5,10,20,0.85);
   --panel: rgba(15,23,42,0.90);
   --panel2: rgba(2,6,23,0.95);
   --accent: #1d4ed8;
@@ -15,171 +14,99 @@
   --gold: #d4af37;
   --text: #e5e7eb;
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:"Courier New", monospace;
-  background: url("fib_background.png") no-repeat center center fixed;
+  background:url("fib_background.png") no-repeat center center fixed;
   background-size:cover;
   color:var(--text);
-  overflow:hidden;
 }
-
-/* Overlay sombre */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:rgba(0,0,0,0.75);
-  backdrop-filter: blur(4px);
+  backdrop-filter:blur(4px);
   z-index:-1;
 }
-
-/* HEADER */
 header{
   background:rgba(0,0,0,0.85);
-  padding:20px 30px;
+  padding:20px;
   border-bottom:2px solid var(--gold);
   display:flex;
   align-items:center;
-  box-shadow:0 0 20px rgba(0,0,0,0.8);
 }
+header img{height:65px;margin-right:20px;}
+header h1{color:var(--gold);margin:0;}
+header span{margin-left:auto;color:#9ca3af;}
 
-header img{
-  height:65px;
-  margin-right:20px;
-  filter: drop-shadow(0 0 10px black);
-}
-
-header h1{
-  margin:0;
-  font-size:28px;
-  color:var(--gold);
-  letter-spacing:2px;
-}
-
-header span{
-  margin-left:auto;
-  font-size:13px;
-  color:#9ca3af;
-}
-
-/* GRID */
 .container{
   display:grid;
   grid-template-columns:340px 1fr;
-  height:calc(100vh - 105px);
+  height:calc(100vh - 100px);
 }
 
-/* SIDEBAR */
 .sidebar{
   background:var(--panel2);
-  padding:25px;
+  padding:20px;
   border-right:2px solid var(--gold);
   overflow-y:auto;
 }
 
-.sidebar h2{
-  color:var(--gold);
-  margin-top:0;
-  border-bottom:1px solid var(--gold);
-  padding-bottom:6px;
-}
-
-.case{
-  padding:12px;
-  margin-bottom:10px;
-  background:var(--panel);
-  border-left:4px solid var(--accent2);
-  border-radius:6px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.case:hover{
-  background:rgba(30,41,59,0.95);
-  transform:translateX(6px);
-  box-shadow:0 0 10px rgba(59,130,246,0.6);
-}
-
-/* MAIN */
 .main{
-  padding:30px;
+  padding:20px;
   overflow-y:auto;
 }
 
-/* PANELS */
 .panel{
   background:var(--panel);
-  padding:25px;
-  margin-bottom:25px;
-  border-radius:12px;
-  box-shadow:0 0 25px rgba(0,0,0,0.7);
-  transition:0.3s;
-}
-
-.panel:hover{
-  box-shadow:0 0 30px rgba(212,175,55,0.4);
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:10px;
 }
 
 .panel h2{
-  margin-top:0;
   color:var(--gold);
-  border-bottom:1px solid var(--gold);
-  padding-bottom:6px;
+  margin-top:0;
 }
 
-/* INPUTS */
-input, textarea, select{
+input,textarea,select{
   width:100%;
-  padding:12px;
-  margin-top:6px;
-  margin-bottom:14px;
-  background:rgba(30,41,59,0.95);
+  padding:10px;
+  margin-bottom:10px;
+  background:#111827;
   border:1px solid var(--accent2);
-  border-radius:6px;
-  color:var(--text);
+  color:white;
+  border-radius:5px;
 }
 
-textarea{
-  min-height:140px;
-  resize:vertical;
-}
-
-/* BUTTONS */
 button{
   background:var(--accent);
   border:none;
-  padding:12px 18px;
+  padding:10px;
   color:white;
   cursor:pointer;
-  margin-right:5px;
-  border-radius:6px;
-  font-weight:bold;
-  transition:0.3s;
+  margin-bottom:5px;
+  width:100%;
 }
 
 button:hover{
   background:var(--accent2);
-  box-shadow:0 0 12px var(--accent2);
 }
 
-/* LOG */
+.case{
+  background:#111827;
+  padding:10px;
+  margin-bottom:5px;
+  cursor:pointer;
+}
+
 .log{
   background:black;
-  padding:15px;
-  font-size:13px;
-  height:250px;
-  overflow-y:auto;
-  border-radius:6px;
-}
-
-/* CHECKBOX */
-.checkbox-group label{
-  display:block;
-  margin-bottom:6px;
+  padding:10px;
+  height:200px;
+  overflow:auto;
 }
 </style>
 </head>
@@ -187,103 +114,394 @@ button:hover{
 <body>
 
 <header>
-  <img src='https://i.postimg.cc/rRzpSQyQ/tyui.png' border='0' alt='tyui'>
-  <h1>FIB</h1>
-  <span>Federal Investigation Bureau – San Andreas</span>
+<img src="https://i.postimg.cc/rRzpSQyQ/tyui.png">
+<h1>FIB</h1>
+<span>Federal Investigation Bureau</span>
 </header>
 
 <div class="container">
 
-  <div class="sidebar">
-    <h2>Connexion / Inscription</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Mot de passe">
-    <button onclick="signup()">Créer un compte</button>
-    <button onclick="login()">Se connecter</button>
-    <div id="loginStatus"></div>
+<div class="sidebar">
 
-    <h2>Dossiers</h2>
-    <button onclick="newCase()">+ Nouveau dossier</button>
-    <div id="caseList"></div>
-  </div>
+<h2>Connexion</h2>
 
-  <div class="main">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Mot de passe">
 
-    <div class="panel">
-      <h2>Informations générales</h2>
-      Numéro dossier<input id="caseNumber">
-      Organisation<input id="orgName">
-      Alias<input id="alias">
-      Localisation<input id="location">
-      Statut<select id="status">
-        <option>ACTIF</option>
-        <option>SURVEILLANCE</option>
-        <option>FERMÉ</option>
-      </select>
-      Type d’organisation<select id="orgType">
-        <option>Criminelle</option>
-        <option>Groupe structuré</option>
-        <option>Gang</option>
-        <option>Entreprise écran</option>
-      </select>
-      Priorité<select id="priority">
-        <option>Normale</option>
-        <option>Haute</option>
-        <option>Critique</option>
-      </select>
-    </div>
+<button onclick="signup()">Créer un compte</button>
+<button onclick="login()">Se connecter</button>
 
-    <div class="panel">
-      <h2>Description détaillée</h2>
-      <textarea id="description"></textarea>
-    </div>
+<div id="loginStatus"></div>
 
-    <div class="panel">
-      <h2>Niveau de menace</h2>
-      <select id="threat">
-        <option>FAIBLE</option>
-        <option>MODÉRÉ</option>
-        <option>ÉLEVÉ</option>
-        <option>CRITIQUE</option>
-      </select>
-    </div>
+<h2>Dossiers</h2>
 
-    <div class="panel">
-      <h2>Actions recommandées</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox" class="action" value="Surveillance"> Surveillance</label>
-        <label><input type="checkbox" class="action" value="Infiltration"> Infiltration</label>
-        <label><input type="checkbox" class="action" value="Mandat d’arrêt"> Mandat d’arrêt</label>
-        <label><input type="checkbox" class="action" value="Perquisition"> Perquisition</label>
-        <label><input type="checkbox" class="action" value="Interrogatoire"> Interrogatoire</label>
-        <label><input type="checkbox" class="action" value="Analyse financière"> Analyse financière</label>
-      </div>
-    </div>
+<button onclick="newCase()">+ Nouveau dossier</button>
 
-    <div class="panel">
-      <h2>Membres identifiés</h2>
-      <textarea id="members"></textarea>
-    </div>
+<div id="caseList"></div>
 
-    <div class="panel">
-      <h2>Preuves et fichiers</h2>
-      <input type="file" id="fileUpload" multiple>
-      <textarea id="evidence"></textarea>
-    </div>
-
-    <div class="panel">
-      <button onclick="saveCase()">Sauvegarder</button>
-      <button onclick="deleteCase()">Supprimer</button>
-      <button onclick="exportCase()">Exporter</button>
-    </div>
-
-    <div class="panel">
-      <h2>Journal système</h2>
-      <div class="log" id="log"></div>
-    </div>
-
-  </div>
 </div>
 
+
+<div class="main">
+
+<div class="panel">
+<h2>Informations</h2>
+
+Numéro dossier
+<input id="caseNumber">
+
+Organisation
+<input id="orgName">
+
+Alias
+<input id="alias">
+
+Localisation
+<input id="location">
+
+Statut
+<select id="status">
+<option>ACTIF</option>
+<option>SURVEILLANCE</option>
+<option>FERMÉ</option>
+</select>
+
+Type
+<select id="orgType">
+<option>Criminelle</option>
+<option>Gang</option>
+<option>Entreprise écran</option>
+</select>
+
+Priorité
+<select id="priority">
+<option>Normale</option>
+<option>Haute</option>
+<option>Critique</option>
+</select>
+
+</div>
+
+
+<div class="panel">
+<h2>Description</h2>
+<textarea id="description"></textarea>
+</div>
+
+
+<div class="panel">
+<h2>Menace</h2>
+
+<select id="threat">
+<option>FAIBLE</option>
+<option>MODÉRÉ</option>
+<option>ÉLEVÉ</option>
+<option>CRITIQUE</option>
+</select>
+
+</div>
+
+
+<div class="panel">
+
+<h2>Membres</h2>
+
+<textarea id="members"></textarea>
+
+</div>
+
+
+<div class="panel">
+
+<h2>Preuves</h2>
+
+<textarea id="evidence"></textarea>
+
+</div>
+
+
+<div class="panel">
+
+<button onclick="saveCase()">Sauvegarder</button>
+<button onclick="deleteCase()">Supprimer</button>
+<button onclick="exportCase()">Exporter</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>Journal</h2>
+
+<div class="log" id="log"></div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<script>
+
+let currentUser=null;
+let currentCase=null;
+
+
+function log(msg){
+
+const logDiv=document.getElementById("log");
+
+const time=new Date().toLocaleTimeString();
+
+logDiv.innerHTML+="["+time+"] "+msg+"<br>";
+
+}
+
+
+function getUsers(){
+
+return JSON.parse(localStorage.getItem("fib_users"))||{};
+
+}
+
+
+function saveUsers(users){
+
+localStorage.setItem("fib_users",JSON.stringify(users));
+
+}
+
+
+
+function signup(){
+
+const email=email.value;
+const password=password.value;
+
+if(!email||!password){
+
+loginStatus.innerText="Remplis les champs";
+
+return;
+
+}
+
+let users=getUsers();
+
+if(users[email]){
+
+loginStatus.innerText="Compte existe";
+
+return;
+
+}
+
+users[email]={password:password,cases:{}};
+
+saveUsers(users);
+
+loginStatus.innerText="Compte créé";
+
+log("Compte créé");
+
+}
+
+
+
+function login(){
+
+const emailValue=email.value;
+const passwordValue=password.value;
+
+let users=getUsers();
+
+if(!users[emailValue]||users[emailValue].password!==passwordValue){
+
+loginStatus.innerText="Refusé";
+
+return;
+
+}
+
+currentUser=emailValue;
+
+loginStatus.innerText="Connecté";
+
+log("Connexion");
+
+loadCases();
+
+}
+
+
+
+function newCase(){
+
+if(!currentUser){
+
+alert("Connecte-toi");
+
+return;
+
+}
+
+currentCase="case_"+Date.now();
+
+clearForm();
+
+log("Nouveau dossier");
+
+}
+
+
+
+function saveCase(){
+
+if(!currentUser||!currentCase)return;
+
+let users=getUsers();
+
+users[currentUser].cases[currentCase]={
+
+caseNumber:caseNumber.value,
+orgName:orgName.value,
+alias:alias.value,
+location:location.value,
+status:status.value,
+orgType:orgType.value,
+priority:priority.value,
+description:description.value,
+threat:threat.value,
+members:members.value,
+evidence:evidence.value
+
+};
+
+saveUsers(users);
+
+loadCases();
+
+log("Sauvegardé");
+
+}
+
+
+
+function loadCases(){
+
+const list=document.getElementById("caseList");
+
+list.innerHTML="";
+
+let users=getUsers();
+
+if(!users[currentUser])return;
+
+for(let id in users[currentUser].cases){
+
+const div=document.createElement("div");
+
+div.className="case";
+
+div.innerText=users[currentUser].cases[id].caseNumber||id;
+
+div.onclick=()=>loadCase(id);
+
+list.appendChild(div);
+
+}
+
+}
+
+
+
+function loadCase(id){
+
+currentCase=id;
+
+let users=getUsers();
+
+const c=users[currentUser].cases[id];
+
+caseNumber.value=c.caseNumber;
+orgName.value=c.orgName;
+alias.value=c.alias;
+location.value=c.location;
+status.value=c.status;
+orgType.value=c.orgType;
+priority.value=c.priority;
+description.value=c.description;
+threat.value=c.threat;
+members.value=c.members;
+evidence.value=c.evidence;
+
+log("Dossier chargé");
+
+}
+
+
+
+function deleteCase(){
+
+if(!currentUser||!currentCase)return;
+
+let users=getUsers();
+
+delete users[currentUser].cases[currentCase];
+
+saveUsers(users);
+
+loadCases();
+
+clearForm();
+
+log("Supprimé");
+
+}
+
+
+
+function exportCase(){
+
+if(!currentUser||!currentCase)return;
+
+let users=getUsers();
+
+const data=users[currentUser].cases[currentCase];
+
+const blob=new Blob([JSON.stringify(data,null,2)]);
+
+const a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download="dossier.json";
+
+a.click();
+
+log("Exporté");
+
+}
+
+
+
+function clearForm(){
+
+caseNumber.value="";
+orgName.value="";
+alias.value="";
+location.value="";
+description.value="";
+members.value="";
+evidence.value="";
+
+}
+
+</script>
+
+
+</body>
+</html>
 </body>
 </html>
